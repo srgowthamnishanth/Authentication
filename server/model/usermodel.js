@@ -19,8 +19,9 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             users.find({username: userdata.username, password: userdata.password}).then((userdata) => {
-                // console.log(userdata.username)
+                
                 if(userdata.length != 0) {
+
                     return resolve(userdata)
                 }
                 reject('data not found')

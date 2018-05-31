@@ -1,4 +1,8 @@
+const jwt = require('jsonwebtoken');
+
 const usermodel = require('../model/usermodel');
+const users = require('../schema/userSchema');
+
 
 module.exports = {
     getpost: (req,res) => {
@@ -14,6 +18,9 @@ module.exports = {
            res.send(err)
         })
 
+        var token = jwt.sign({ id: users._id }, 'abc123');
+        res.status(200).send({ auth: true, token: token });
+
     },
 
     authuser: (req, res) => {
@@ -23,10 +30,18 @@ module.exports = {
         }
         
         usermodel.verifyUser(userdata).then((userdata) => {
-            res.send(userdata);
-        }).catch((err) => {
-            res.send(err);
+            // return users.generateAuthToken();
+           return res.send(userdata);
         })
+        // .then((token) => {
+        //     res.header('x-auth', token).send(userdata);
+        // })
+        .catch((err) => {
+            return res.send(err);
+        });
+
+        var token = jwt.sign({ id: users._id }, 'abc123');
+        res.status(200).send({ auth: true, token: token });
 
     }
 }
