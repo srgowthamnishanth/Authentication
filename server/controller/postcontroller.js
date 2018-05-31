@@ -30,13 +30,9 @@ module.exports = {
         }
         
         usermodel.verifyUser(userdata).then((userdata) => {
-            // return users.generateAuthToken();
-           return res.send(userdata);
-        })
-        // .then((token) => {
-        //     res.header('x-auth', token).send(userdata);
-        // })
-        .catch((err) => {
+           
+            return res.send(userdata);
+        }).catch((err) => {
             return res.send(err);
         });
 
