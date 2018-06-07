@@ -5,5 +5,7 @@ module.exports = (Router) => {
 
     Router.post('/login', postcontroller.authuser);
 
+    Router.post('/verify', postcontroller.verification);
+
     return Router;
 }

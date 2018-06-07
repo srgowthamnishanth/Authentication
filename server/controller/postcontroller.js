@@ -19,7 +19,7 @@ module.exports = {
         })
 
         var token = jwt.sign({ id: users._id }, 'abc123');
-        res.status(200).send({ auth: true, token: token });
+        // res.status(200).send({ auth: true, token: token });
 
     },
 
@@ -36,8 +36,32 @@ module.exports = {
             return res.send(err);
         });
 
-        var token = jwt.sign({ id: users._id }, 'abc123');
-        res.status(200).send({ auth: true, token: token });
+        var token = jwt.sign({id: users._id }, 'abc123');
+        // res.status(200).send({auth: true, token: token});
+        
 
-    }
+    },
+
+    verification: (req, res, next) => {
+  
+            const bearerHeader = req.headers['authorization'];
+
+            if(typeof bearerHeader !== 'undefined') {
+        
+                const bearer = bearerHeader.split(' ');
+        
+                const bearerToken = bearer[1];
+         
+                req.token = bearerToken;
+            }           
+
+                usermodel.verifyToken(req.token).then((token) => {
+                    
+                    return res.send(token)
+                }).catch((err) => {
+                    return res.send(err);
+                });
+                
+        }
+    
 }
